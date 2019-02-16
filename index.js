@@ -40,7 +40,7 @@ const request = function(app) {
           const req = http.request(buildOptions(method, port, path), res => {
             res.pipe(
               concat(body => {
-                res.text = body.toString();
+                res.text = body
                 server.close(() => {
                   innerResolve(res);
                 })
