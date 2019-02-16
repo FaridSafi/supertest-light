@@ -30,20 +30,24 @@ const request = function(app) {
         if (server) {
           server.close(() => {
             _reject(e);
-          })
+          });
         } else {
-          _reject(e)
+          _reject(e);
         }
-      }
+      };
       pendingPort
         .then(port => {
           const req = http.request(buildOptions(method, port, path), res => {
             res.pipe(
               concat(body => {
-                res.text = body
+                try {
+                  res.text = JSON.parse(body.toString());
+                } catch (error) {
+                  res.text = body.toString();
+                }
                 server.close(() => {
                   innerResolve(res);
-                })
+                });
               })
             );
           });
@@ -51,10 +55,10 @@ const request = function(app) {
             req.setHeader("Content-Type", "application/json");
             req.write(JSON.stringify(postData));
           }
-          req.on("error",(e) => close(e,innerReject));
+          req.on("error", e => close(e, innerReject));
           req.end();
         })
-        .catch((e) => close(e,innerReject));
+        .catch(e => close(e, innerReject));
     });
     return x.then(resolve, reject);
   };
