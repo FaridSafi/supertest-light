@@ -51,7 +51,7 @@ const request = function(app) {
               })
             );
           });
-          if (method == "POST") {
+          if (method === "POST" || method === "PUT") {
             req.setHeader("Content-Type", "application/json");
             req.write(JSON.stringify(postData));
           }
@@ -83,10 +83,9 @@ const request = function(app) {
     postData = _postData;
     return obj;
   };
-  obj.delete = function(_path, _postData) {
+  obj.delete = function(_path) {
     method = "DELETE";
     path = _path;
-    postData = _postData;
     return obj;
   };
   return obj;
