@@ -77,6 +77,18 @@ const request = function(app) {
     postData = _postData;
     return obj;
   };
+  obj.put = function(_path, _postData) {
+    method = "PUT";
+    path = _path;
+    postData = _postData;
+    return obj;
+  };
+  obj.delete = function(_path, _postData) {
+    method = "DELETE";
+    path = _path;
+    postData = _postData;
+    return obj;
+  };
   return obj;
 };
 
